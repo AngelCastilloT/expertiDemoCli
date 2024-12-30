@@ -106,8 +106,8 @@ public class RepoVacacion {
             try (Connection connection = ayudante.getConnection(); PreparedStatement pst = connection.prepareStatement("UPDATE vacaciones SET aprobacion_fk=?, fecha_libre=?, actualizado=NOW() WHERE pk=?")) {
 
                 pst.setLong(1, vacacion.getAprobacion().getId());
-                pst.setDate(4, java.sql.Date.valueOf(vacacion.getFechaLibre()));
-                pst.setLong(4, vacacion.getId());
+                pst.setDate(2, java.sql.Date.valueOf(vacacion.getFechaLibre()));
+                pst.setLong(3, vacacion.getId());
 
                 pst.execute();
             }

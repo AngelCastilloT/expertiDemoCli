@@ -1,10 +1,5 @@
 package cl.angel.demo.modelo;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.MappedSuperclass;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -12,18 +7,10 @@ import java.util.Objects;
  *
  * @author angelexperti
  */
-@MappedSuperclass
 public class Angel implements Comparable<Angel> {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "pk", nullable = false)
     private Long id = null;
-
-    @Column(name = "creado", nullable = false, updatable = false)
     private LocalDateTime creado = LocalDateTime.now();
-
-    @Column(name = "actualizado", nullable = false)
     private LocalDateTime actualizado = LocalDateTime.now();
 
     public Long getId() {

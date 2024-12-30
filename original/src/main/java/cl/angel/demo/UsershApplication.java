@@ -1,19 +1,23 @@
 package cl.angel.demo;
 
-import cl.angel.demo.administrador.AdministradorEmpleado;
-import cl.angel.demo.administrador.AdministradorAprobacion;
-import cl.angel.demo.administrador.AdministradorVacacion;
-
-import cl.angel.demo.modelo.Aprobacion;
 import cl.angel.demo.modelo.Empleado;
+import cl.angel.demo.modelo.Aprobacion;
 import cl.angel.demo.modelo.Vacacion;
+
+import cl.angel.demo.repositorio.RepoAprobacion;
+import cl.angel.demo.repositorio.RepoEmpleado;
+import cl.angel.demo.repositorio.RepoVacacion;
 import cl.angel.demo.utils.FechaUtils;
-import java.time.Instant;
+import java.sql.SQLException;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.InputMismatchException;
 import java.util.List;
+import java.util.Scanner;
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.RandomStringUtils;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -22,95 +26,21 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class UsershApplication implements CommandLineRunner {
 
-    private final AdministradorEmpleado administradorEmpleado;
-    private final AdministradorAprobacion administradorAprobacion;
-    private final AdministradorVacacion administradorVacacion;
+    private final RepoEmpleado repoEmpleado;
+    private final RepoAprobacion repoAprobacion;
+    private final RepoVacacion repoVacacion;
 
     @Autowired
-    public UsershApplication(AdministradorEmpleado administradorEmpleado, AdministradorAprobacion administradorAprobacion, AdministradorVacacion administradorVacacion) {
-        this.administradorEmpleado = administradorEmpleado;
-        this.administradorAprobacion = administradorAprobacion;
-        this.administradorVacacion = administradorVacacion;
+    public UsershApplication(RepoEmpleado repoEmpleado, RepoAprobacion repoAprobacion, RepoVacacion repoVacacion) {
+        this.repoEmpleado = repoEmpleado;
+        this.repoAprobacion = repoAprobacion;
+        this.repoVacacion = repoVacacion;
     }
 
     public static void main(String[] args) {
         SpringApplication.run(UsershApplication.class, args);
     }
 
-    @Override
-    public void run(String... args) throws Exception {
-        final String motivo = "Días administrativos";
-        final long rut = 12111111L;
-
-        System.out.println("Empleado");
-        Empleado emp = administradorEmpleado.consultar(rut);
-        if (emp == null) {
-            emp = new Empleado();
-            emp.setRut(rut);
-            emp.setApellidos("Perez");
-            emp.setNombres("Juan");
-            emp.setContratacion(LocalDate.now());
-        } else {
-            emp.setActualizado(LocalDateTime.now());
-        }
-        Empleado guardado = administradorEmpleado.guardar(emp);
-        System.out.println(String.format("Se guardo con id %d y actualizacion %s", guardado.getId(), guardado.getActualizado()));
-
-        //////////////////////////////////////////////
-        
-        System.out.println("Aprobacion");
-        Aprobacion aprobacion = administradorAprobacion.consultar(motivo, guardado);
-        if (aprobacion == null) {
-            Aprobacion solicitud = new Aprobacion();
-            solicitud.setAceptado(false);
-            solicitud.setEmpleado(guardado);
-            solicitud.setMotivo(motivo);
-            aprobacion = administradorAprobacion.guardar(solicitud);
-        }
-
-        List<Aprobacion> lista = administradorAprobacion.consultar(guardado);
-        if (CollectionUtils.isNotEmpty(lista)) {
-            for (Aprobacion apr : lista) {
-                System.out.println(String.format("Hay una solicitud %s para %s %s",
-                        apr.getMotivo(),
-                        apr.getEmpleado().getNombres(),
-                        apr.getEmpleado().getApellidos()
-                )
-                );
-            }
-        } else {
-            System.out.println("No hay aprobaciones");
-        }
-
-        //////////////////////////////////////////////
-        
-        System.out.println("Aprobacion");
-        String motivoAleatoreo = RandomStringUtils.randomAlphabetic(7);
-        administradorVacacion.solicitar(guardado, motivoAleatoreo, FechaUtils.fechasTrabajables(LocalDate.now(), LocalDate.now().plusDays(7)));
-
-        List<Vacacion> vacacion = administradorVacacion.consultar(guardado);
-        if (CollectionUtils.isNotEmpty(vacacion)) {
-            for (Vacacion vaca : vacacion) {
-                System.out.println(String.format("%s %s solicitó vacaciones para el día %s para %s",
-                        vaca.getAprobacion().getEmpleado().getNombres(),
-                        vaca.getAprobacion().getEmpleado().getApellidos(),
-                        vaca.getFechaLibre(),
-                        vaca.getAprobacion().getMotivo()
-                )
-                );
-            }
-        }
-
-        if (Instant.now().getEpochSecond() % 2 == 0) {
-            boolean acp = administradorVacacion.aceptar(guardado, motivoAleatoreo);
-            System.out.println(String.format("%s", acp ? "Solicitud aceptada" : "Solicitud NO aceptada"));
-        } else {
-            boolean rcz = administradorVacacion.rechazar(guardado, motivoAleatoreo);
-            System.out.println(String.format("%s", rcz ? "Solicitud rechazada" : "Solicitud NO rechazada"));
-        }
-    }
-
-    /*
     private void solicitarVacaciones(Empleado empleado, String motivo, List<LocalDate> dias) throws SQLException {
         if (dias != null && !dias.isEmpty()) {
             Aprobacion aprobacion = repoAprobacion.lectura(empleado, motivo);
@@ -360,5 +290,4 @@ public class UsershApplication implements CommandLineRunner {
         }
   
     }
-     */
 }
