@@ -41,7 +41,7 @@ public class RepoAprobacion {
                 pst.setTimestamp(5, java.sql.Timestamp.valueOf(aprobacion.getActualizado()));
                 pst.execute();
             }
-        }
+        } 
     }
 
     public List<Aprobacion> lectura() throws SQLException {
@@ -78,7 +78,7 @@ public class RepoAprobacion {
     public Aprobacion lectura(Empleado empleado, String motivoSolicitud) throws SQLException {
         return ayudante.getAprobacion(empleado, motivoSolicitud);
     }
-
+    
     public void actualizacion(Aprobacion aprobacion) throws SQLException {
         if (aprobacion != null && aprobacion.getEmpleado() != null) {
             try (Connection connection = ayudante.getConnection(); PreparedStatement pst = connection.prepareStatement("UPDATE aprobaciones SET empleado_fk=?, motivo=?, aceptado=?, actualizado=NOW() WHERE pk=?")) {
