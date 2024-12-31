@@ -1,5 +1,4 @@
 package cl.angel.demo.administrador;
-
 import cl.angel.demo.excepcion.AngelException;
 import cl.angel.demo.modelo.Aprobacion;
 import cl.angel.demo.modelo.Empleado;
@@ -15,7 +14,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 /**
  *
  * @author angelexperti

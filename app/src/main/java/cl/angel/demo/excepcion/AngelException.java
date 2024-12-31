@@ -1,5 +1,4 @@
 package cl.angel.demo.excepcion;
-
 /**
  *
  * @author angelexperti

@@ -1,5 +1,4 @@
 package cl.angel.demo.modelo;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -7,7 +6,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
 import java.time.LocalDateTime;
 import java.util.Objects;
-
 /**
  *
  * @author angelexperti

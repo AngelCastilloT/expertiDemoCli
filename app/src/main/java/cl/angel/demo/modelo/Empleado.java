@@ -1,10 +1,8 @@
 package cl.angel.demo.modelo;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
-
 /**
  *
  * @author angelexperti

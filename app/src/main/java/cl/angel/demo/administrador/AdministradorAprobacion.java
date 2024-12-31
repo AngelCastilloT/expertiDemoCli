@@ -1,15 +1,12 @@
 package cl.angel.demo.administrador;
-
 import cl.angel.demo.modelo.Aprobacion;
 import cl.angel.demo.repositorio.RepositorioAprobacion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import cl.angel.demo.modelo.Empleado;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang3.StringUtils;
-
 /**
  *
  * @author angelexperti
@@ -53,5 +50,4 @@ public class AdministradorAprobacion {
             repositorioAprobacion.delete(apr);
         }
     }
-
 }

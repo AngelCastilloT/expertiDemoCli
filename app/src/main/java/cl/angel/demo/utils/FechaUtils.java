@@ -1,11 +1,9 @@
 package cl.angel.demo.utils;
-
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
 /**
  *
  * @author angelexperti
@@ -23,7 +21,6 @@ public class FechaUtils {
 
     public static List<LocalDate> fechasTrabajables(final LocalDate inicio, final LocalDate termino) {
         List<LocalDate> lista = new ArrayList<>();
-
         if (inicio != null && termino != null) {
             if (Objects.equals(inicio, termino)) {
                 if (esLaboral(termino)) {
@@ -39,8 +36,6 @@ public class FechaUtils {
                 }
             }
         }
-
         return lista;
     }
-
 }
